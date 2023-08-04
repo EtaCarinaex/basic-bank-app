@@ -19,10 +19,9 @@ public class BankaMusteriServisi {
 
     public BankaHesabi hesapAc(Double bakiye, HesapTuru hesapTuru) {
 
-        BankaHesabi bankaHesabi = new BankaHesabi(UUID.randomUUID());
+        BankaHesabi bankaHesabi = new BankaHesabi(UUID.randomUUID().toString());
         bankaHesabi.setBakiye(bakiye);
         bankaHesabi.setHesapTuru(hesapTuru);
-        bankaHesabi.setVergiNo(UUID.randomUUID());
 
 
         if (hesapTuru.equals(HesapTuru.VADELI))
@@ -35,12 +34,12 @@ public class BankaMusteriServisi {
     }
 
 
-    public void hesapKapat(UUID hesapNumarasi) {
+    public void hesapKapat(String hesapNumarasi) {
         hesaplarim.remove(hesapKontrol(hesapNumarasi));
     }
 
 
-    public void paraYatir(UUID hesapNumarasi, Double miktar) {
+    public void paraYatir(String hesapNumarasi, Double miktar) {
 
         BankaHesabi bankaHesabi = hesapKontrol(hesapNumarasi);
 
@@ -48,8 +47,8 @@ public class BankaMusteriServisi {
 
     }
 
-    public void paraCek(UUID hesapNumarasi, Double miktar) {
-        BankaHesabi bankaHesabim = hesapKontrol((hesapNumarasi));
+    public void paraCek(String hesapNumarasi, Double miktar) {
+        BankaHesabi bankaHesabim = hesapKontrol(hesapNumarasi);
 
         if (bankaHesabim.getBakiye() < miktar) {
             System.out.println("Girilen miktar bakiyeden büyük olamaz");
@@ -61,11 +60,11 @@ public class BankaMusteriServisi {
     }
 
 
-    private BankaHesabi hesapKontrol(UUID hesapNumarasi) {
+    private BankaHesabi hesapKontrol(String hesapNumarasi) {
         BankaHesabi tempHesap = null;
 
         for (BankaHesabi bankaHesabi : hesaplarim) {
-            if (bankaHesabi.getHesapNo() == hesapNumarasi) {
+            if (bankaHesabi.getHesapNo().equals(hesapNumarasi)) {
                 tempHesap = bankaHesabi;
                 break;
             }
@@ -88,7 +87,7 @@ public class BankaMusteriServisi {
     }
 
 
-    public BankaHesabi hesapBilgileri(UUID hesapNumarası) {
+    public BankaHesabi hesapBilgileri(String hesapNumarası) {
         BankaHesabi hesap = hesapKontrol(hesapNumarası);
 
         System.out.println(hesap);

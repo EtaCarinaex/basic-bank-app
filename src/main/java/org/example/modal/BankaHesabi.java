@@ -1,26 +1,48 @@
 package org.example.modal;
 
+import jakarta.persistence.*;
 import org.example.constants.HesapTuru;
 import org.example.interfaces.IVadeliBankaHesabi;
 import org.example.interfaces.IVadesizBankaHesabi;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
 import java.util.UUID;
 
+@Entity
+@Table(name = "banka_hesabi")
 public class BankaHesabi implements IVadesizBankaHesabi, IVadeliBankaHesabi {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
+    @Column(name = "hesap_no")
+    private String hesapNo;
 
-    private final UUID hesapNo;
-
+    @Column(name = "bakiye")
     private Double bakiye;
 
+    @Enumerated
+    @Column(name = "hesap_turu")
     private HesapTuru hesapTuru;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "vade_tarihi")
     private Date vadeTarihi;
 
-    private UUID vergiNo;
+    public Long getId() {
+        return id;
+    }
 
-    public BankaHesabi(UUID hesapNo) {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BankaHesabi() {
+    }
+
+    public BankaHesabi(String hesapNo) {
         this.hesapNo = hesapNo;
     }
 
@@ -46,7 +68,7 @@ public class BankaHesabi implements IVadesizBankaHesabi, IVadeliBankaHesabi {
 
     @Override
     public UUID getVergiNumarasi() {
-        return vergiNo;
+        return null;
     }
 
 
@@ -56,7 +78,6 @@ public class BankaHesabi implements IVadesizBankaHesabi, IVadeliBankaHesabi {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("Hesap NO: ").append(this.hesapNo)
-                .append("\n Vergi Numarası: ").append(vergiNo)
                 .append("\n Hesap Türü: ").append(hesapTuru.toString())
                 .append("\n bakiye:").append(bakiye);
 
@@ -68,7 +89,7 @@ public class BankaHesabi implements IVadesizBankaHesabi, IVadeliBankaHesabi {
     }
 
 
-    public UUID getHesapNo() {
+    public String getHesapNo() {
         return hesapNo;
     }
 
@@ -88,12 +109,17 @@ public class BankaHesabi implements IVadesizBankaHesabi, IVadeliBankaHesabi {
         this.hesapTuru = hesapTuru;
     }
 
-    public void setVergiNo(UUID vergiNo){
-        this.vergiNo = vergiNo;
-    }
 
     public void setVadeTarihi(Date vadeTarihi){
         this.vadeTarihi = vadeTarihi;
+    }
+
+    public void setHesapNo(String hesapNo) {
+        this.hesapNo = hesapNo;
+    }
+
+    public Date getVadeTarihi() {
+        return vadeTarihi;
     }
 
 }
